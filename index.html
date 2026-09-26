@@ -1,569 +1,484 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ISO Adventure: ¡Superpoderes Empresariales!</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0d1117;
-      margin: 0;
-      padding: 0;
-      color: #e6edf3;
-    }
-    .slide {
-      display: none;
-      padding: 40px;
-      text-align: center;
-      background: #161b22;
-      min-height: 100vh;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      border-radius: 10px;
-      margin: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .active {
-      display: block;
-      animation: fadeIn 0.5s;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    h1, h2 {
-      color: #58a6ff;
-      text-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
-    }
-    .level-indicator {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #238636;
-      color: white;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(35, 134, 54, 0.5);
-    }
-    .navigation {
-      position: fixed;
-      bottom: 20px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-    .btn {
-      padding: 12px 24px;
-      background: #238636;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: all 0.3s;
-      box-shadow: 0 0 10px rgba(35, 134, 54, 0.5);
-    }
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(35, 134, 54, 0.7);
-    }
-    .btn:disabled {
-      background: #6e7681;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .question {
-      font-style: italic;
-      margin-top: 20px;
-      background: #21262d;
-      padding: 15px;
-      border-radius: 8px;
-      border-left: 4px solid #58a6ff;
-    }
-    .icon {
-      font-size: 72px;
-      margin: 30px 0;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    .quiz-container {
-      background: #21262d;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 600px;
-      margin: 20px auto;
-    }
-    .quiz-option {
-      background: #30363d;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-align: left;
-    }
-    .quiz-option:hover {
-      background: #3c444d;
-    }
-    .quiz-option.correct {
-      background: #238636;
-    }
-    .quiz-option.incorrect {
-      background: #da3633;
-    }
-    .progress-bar {
-      height: 10px;
-      background: #21262d;
-      width: 100%;
-      border-radius: 5px;
-      margin: 20px 0;
-      overflow: hidden;
-    }
-    .progress {
-      height: 100%;
-      background: #58a6ff;
-      width: 0%;
-      transition: width 0.5s;
-    }
-    .feedback {
-      margin: 20px 0;
-      padding: 15px;
-      border-radius: 8px;
-      display: none;
-    }
-    .success {
-      background: rgba(35, 134, 54, 0.2);
-      border: 1px solid #238636;
-    }
-    .error {
-      background: rgba(218, 54, 51, 0.2);
-      border: 1px solid #da3633;
-    }
-    .start-btn {
-      font-size: 1.2em;
-      padding: 15px 30px;
-      margin-top: 20px;
-      background: #238636;
-      animation: pulse 1.5s infinite;
-      box-shadow: 0 0 20px rgba(35, 134, 54, 0.7);
-    }
-    .btn-highlight {
-      background: #58a6ff !important;
-      box-shadow: 0 0 15px rgba(88, 166, 255, 0.7);
-    }
-    .btn-active {
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes buttonPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    .score-container {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: #21262d;
-      padding: 10px 15px;
-      border-radius: 10px;
-      text-align: left;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      border-left: 3px solid #58a6ff;
-    }
-    .score {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #58a6ff;
-    }
-    .max-score {
-      font-size: 0.9em;
-      color: #8b949e;
-    }
-    .score-animation {
-      animation: scoreFlash 1s;
-    }
-    @keyframes scoreFlash {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); color: #238636; }
-      100% { transform: scale(1); }
-    }
-    .reset-btn {
-      background: #da3633;
-      margin-left: 15px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISO Adventure · Superpoderes empresariales</title>
+<meta name="description" content="Aventura interactiva para aprender ISO 9001, 27001/27701, 22301 y 14001 como superpoderes empresariales. 5 niveles, desafíos y medallas.">
+<meta name="theme-color" content="#fff6e6">
+<meta property="og:title" content="ISO Adventure · Superpoderes empresariales">
+<meta property="og:description" content="Desbloquea 5 superpoderes ISO respondiendo desafíos en esta aventura interactiva.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314142b'/%3E%3Cpath d='M18 4 8 18h7l-1 10 10-14h-7z' fill='%23ffb020'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fff6e6;--ink:#14142b;--muted:#5b5b73;--card:#ffffff;
+  --quality:#ffb020;--security:#4c8dff;--continuity:#ff5a5f;--green:#22c07a;--final:#9b6bff;
+  --ok:#16a34a;--bad:#dc2626;--shadow:4px 4px 0 var(--ink);--radius:16px;
+  --power:var(--quality);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background-color:var(--paper);background-image:radial-gradient(#14142b14 1.2px,transparent 1.3px);background-size:18px 18px;color:var(--ink);font:16px/1.6 'DM Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque','DM Sans',sans-serif;line-height:1.1;margin:0;letter-spacing:-.02em}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--security);outline-offset:3px}
+svg{display:block}
+.icon{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+[tabindex="-1"]:focus{outline:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:10;background:#fff6e6ee;backdrop-filter:blur(6px);border-bottom:2px solid var(--ink)}
+.topbar-inner{max-width:1160px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font:800 20px 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;white-space:nowrap;background:none;border:0;padding:0;text-align:left}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--quality);display:grid;place-items:center}
+.brand-mark .icon{width:20px;height:20px;fill:var(--quality);stroke:none}
+.brand small{font:700 10px 'DM Sans',sans-serif;letter-spacing:.16em;color:var(--muted);display:block;margin-top:-2px}
+.map{flex:1;display:flex;align-items:center;justify-content:center;gap:0}
+.map-node{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);background:var(--card);display:grid;place-items:center;font:800 13px 'Bricolage Grotesque',sans-serif;position:relative;padding:0;transition:transform .15s}
+.map-node .icon{width:16px;height:16px;stroke-width:3}
+.map-node[disabled]{cursor:not-allowed;background:#efe6d6;color:#9a93a0;border-color:#b9b0bf}
+.map-node.done{background:var(--c);color:var(--ink)}
+.map-node.current{box-shadow:0 0 0 4px var(--paper),0 0 0 6px var(--ink);transform:scale(1.08)}
+.map-line{width:34px;height:3px;background:#cfc5b4}
+.map-line.done{background:var(--ink)}
+.xp{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:6px 8px 6px 14px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.xp b{font:800 18px 'Bricolage Grotesque',sans-serif}
+.xp span{font-size:12px;color:var(--muted)}
+.xp-bar{width:70px;height:8px;border-radius:9px;background:#efe6d6;overflow:hidden;border:1.5px solid var(--ink)}
+.xp-bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .5s}
+.xp.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.12)}}
+.reset{border:2px solid var(--ink);background:var(--card);border-radius:10px;width:38px;height:38px;display:grid;place-items:center;padding:0}
+.reset.confirming{width:auto;padding:0 12px;background:var(--continuity);color:#fff;font-size:13px;font-weight:700;gap:6px;display:flex}
+
+/* Layout */
+main{max-width:1160px;margin:auto;padding:36px 20px 60px}
+.screen{display:none}
+.screen.active{display:block;animation:enter .45s ease both}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}}
+
+/* Intro */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:6px 12px;border-radius:999px}
+.kicker .icon{width:14px;height:14px}
+.hero h1{font-size:clamp(44px,6.4vw,84px);font-weight:800;margin:18px 0 18px;letter-spacing:-.045em}
+.hero h1 em{font-style:normal;background:var(--quality);padding:0 .12em;border:2px solid var(--ink);border-radius:12px;box-shadow:var(--shadow);display:inline-block;transform:rotate(-1.5deg)}
+.lead{font-size:19px;color:#34344a;max-width:560px}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:2px solid var(--ink);border-radius:12px;background:var(--ink);color:var(--paper);font-weight:700;font-size:16px;box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.power{background:var(--power);color:var(--ink)}
+.btn.ghost{background:var(--card);color:var(--ink)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.meta{font-size:14px;color:var(--muted)}
+.powers{display:grid;gap:12px}
+.power-chip{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow)}
+.power-chip:nth-child(even){margin-left:28px}
+.power-chip .badge{width:46px;height:46px;border-radius:12px;background:var(--c);border:2px solid var(--ink);display:grid;place-items:center}
+.power-chip strong{display:block;font:800 17px 'Bricolage Grotesque',sans-serif}
+.power-chip span{font-size:13px;color:var(--muted)}
+.power-chip .lvl{margin-left:auto;font:800 12px 'DM Sans';letter-spacing:.1em;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.step{background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);padding:20px}
+.step b{font:800 28px 'Bricolage Grotesque',sans-serif;color:var(--muted)}
+.step h3{font-size:18px;margin:6px 0 6px}
+.step p{font-size:14px;color:var(--muted)}
+
+/* Level */
+.level{display:grid;grid-template-columns:.95fr 1.05fr;gap:28px;align-items:start}
+.power-card{position:relative;background:var(--power);border:2px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);padding:28px;overflow:hidden}
+.power-card::after{content:"";position:absolute;inset:0;background-image:radial-gradient(#14142b24 1.4px,transparent 1.5px);background-size:12px 12px;mask-image:linear-gradient(135deg,transparent 45%,#000);pointer-events:none}
+.power-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+.tag{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:5px 11px;border-radius:999px}
+.power-icon{width:64px;height:64px;border-radius:18px;background:var(--card);border:2px solid var(--ink);display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink)}
+.power-icon .icon{width:34px;height:34px}
+.iso-code{position:relative;z-index:1;font:800 clamp(64px,9vw,108px)/.9 'Bricolage Grotesque',sans-serif;letter-spacing:-.05em;margin:26px 0 6px}
+.iso-code small{font-size:.32em;letter-spacing:0;vertical-align:top;margin-right:6px}
+.power-name{position:relative;z-index:1;font-size:clamp(24px,2.6vw,30px);font-weight:800}
+.power-desc{position:relative;z-index:1;margin-top:10px;font-size:16px;max-width:460px}
+.facts{position:relative;z-index:1;display:grid;gap:8px;margin:22px 0 0;padding:0;list-style:none}
+.facts li{display:flex;gap:10px;align-items:flex-start;background:#ffffffd9;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;font-size:14px}
+.facts li .icon{width:18px;height:18px;margin-top:2px}
+.facts b{font-weight:700}
+.challenge{background:var(--card);border:2px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);padding:28px}
+.challenge-head{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.attempt{font-weight:500;letter-spacing:0;text-transform:none}
+.challenge h2{font-size:clamp(22px,2.4vw,28px);margin:14px 0 20px}
+.scenario{font-size:14px;color:var(--muted);margin:-8px 0 16px}
+.scenario b{color:var(--ink)}
+.options{display:grid;gap:10px}
+.option{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:14px 16px;min-height:58px;font-size:16px;transition:transform .12s,box-shadow .12s,background .12s}
+.option:hover:not([disabled]){transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);background:#fffaf0}
+.option .key{width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font:800 14px 'Bricolage Grotesque';flex:none;background:var(--paper)}
+.option .state{margin-left:auto}
+.option[disabled]{cursor:default}
+.option.wrong{background:#fee2e2;border-color:var(--bad);color:#7f1d1d;text-decoration:line-through;text-decoration-thickness:1.5px}
+.option.wrong .key{border-color:var(--bad);background:#fecaca}
+.option.right{background:#dcfce7;border-color:var(--ok);box-shadow:4px 4px 0 var(--ok)}
+.option.right .key{background:var(--ok);border-color:var(--ok);color:#fff}
+.option.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.feedback{margin-top:18px;border-radius:12px;padding:14px 16px;font-size:15px;display:none;gap:12px;align-items:flex-start;border:2px solid}
+.feedback.show{display:flex}
+.feedback.good{background:#f0fdf4;border-color:var(--ok)}
+.feedback.good .icon{color:var(--ok)}
+.feedback.miss{background:#fff7ed;border-color:#ea580c}
+.feedback.miss .icon{color:#ea580c}
+.feedback strong{display:block;margin-bottom:2px}
+.level-nav{display:flex;justify-content:space-between;gap:12px;margin-top:22px;padding-top:20px;border-top:2px dashed #d9cfbf}
+.plus{position:fixed;z-index:30;font:800 34px 'Bricolage Grotesque';color:var(--ink);background:var(--power);border:2px solid var(--ink);border-radius:12px;padding:2px 12px;box-shadow:var(--shadow);pointer-events:none;animation:plus 1.2s ease forwards}
+@keyframes plus{0%{opacity:0;transform:translate(-50%,0) scale(.6)}20%{opacity:1;transform:translate(-50%,-10px) scale(1)}100%{opacity:0;transform:translate(-50%,-70px)}}
+.progress-dots{display:flex;gap:6px}
+.progress-dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink);background:var(--card)}
+.progress-dots i.on{background:var(--ok);border-color:var(--ok)}
+
+/* Results */
+.results{max-width:900px;margin:auto;text-align:center}
+.trophy{width:96px;height:96px;margin:0 auto;border-radius:28px;background:var(--quality);border:2px solid var(--ink);box-shadow:var(--shadow);display:grid;place-items:center;transform:rotate(-4deg)}
+.trophy .icon{width:52px;height:52px}
+.results h1{font-size:clamp(40px,5.6vw,68px);font-weight:800;margin:26px 0 10px;letter-spacing:-.04em}
+.score-big{font:800 clamp(56px,8vw,96px)/1 'Bricolage Grotesque';letter-spacing:-.04em}
+.score-big span{font-size:.35em;color:var(--muted);letter-spacing:0}
+.rank{display:inline-block;margin:14px 0 8px;font-weight:700;background:var(--ink);color:var(--paper);padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:.06em}
+.results .lead{margin:6px auto 0}
+.medals{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:34px 0}
+.medal{background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);padding:16px 10px;box-shadow:3px 3px 0 var(--ink)}
+.medal .badge{width:50px;height:50px;border-radius:50%;margin:0 auto 10px;background:var(--c);border:2px solid var(--ink);display:grid;place-items:center}
+.medal b{display:block;font:800 16px 'Bricolage Grotesque'}
+.medal span{font-size:12px;color:var(--muted)}
+.medal.partial .badge{background:repeating-linear-gradient(45deg,var(--c) 0 6px,#fff 6px 12px)}
+.results .cta-row{justify-content:center}
+
+footer{border-top:2px solid var(--ink);padding:20px;text-align:center;font-size:13px;color:var(--muted)}
+footer a{color:var(--ink);font-weight:700}
+
+@media(max-width:900px){
+  .hero,.level{grid-template-columns:1fr}
+  .power-chip:nth-child(even){margin-left:0}
+  .steps{grid-template-columns:1fr}
+  .medals{grid-template-columns:repeat(3,1fr)}
+  .map-line{width:16px}
+}
+@media(max-width:640px){
+  .topbar-inner{flex-wrap:wrap;gap:10px 12px;padding:10px 16px}
+  .brand small{display:none}
+  .map{order:3;flex-basis:100%}
+  .xp{margin-left:auto}
+  .xp-bar{display:none}
+  main{padding:24px 16px 48px}
+  .power-card,.challenge{padding:20px;border-radius:18px}
+  .lead{font-size:17px}
+  .medals{grid-template-columns:repeat(2,1fr)}
+  .level-nav .btn{padding:0 16px}
+  .btn{width:auto}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><rect x="9" y="10" width="6" height="5" rx="1"/><path d="M10 10V8.5a2 2 0 0 1 4 0V10"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 12A9 9 0 0 1 18.5 5.8L21 8"/><path d="M21 3v5h-5"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8L4 11l6.1 2.2L12 19l1.9-5.8L20 11l-6.1-2.2Z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+</svg>
 
-<div class="slide active">
-  <div class="level-indicator">INICIO</div>
-  <div class="score-container">
-    <div class="score">Puntuación: <span id="score-value">0</span></div>
-    <div class="max-score">Máximo: 500</div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="brand" type="button" data-go="0" aria-label="ISO Adventure, ir al inicio">
+      <span class="brand-mark"><svg class="icon"><use href="#i-zap"/></svg></span>
+      <span>ISO Adventure<small>SUPERPODERES EMPRESARIALES</small></span>
+    </button>
+    <nav class="map" id="map" aria-label="Mapa de niveles"></nav>
+    <div class="xp" id="xp" aria-live="polite">
+      <b id="xpValue">0</b><span>/ 500 XP</span>
+      <div class="xp-bar" aria-hidden="true"><i id="xpBar"></i></div>
+    </div>
+    <button class="reset" id="reset" type="button" aria-label="Reiniciar aventura"><svg class="icon"><use href="#i-refresh"/></svg></button>
   </div>
-  <h1>¡AVENTURA ISO: SUPERPODERES EMPRESARIALES!</h1>
-  <div class="icon">🦸‍♂️🦸‍♀️❓</div>
-  <p>Bienvenido a la aventura de las ISOs, donde descubrirás <strong>superpoderes empresariales</strong> que transforman organizaciones y mejoran nuestro mundo.</p>
-  <p>En este juego, superarás <strong>5 niveles</strong>, cada uno dedicado a una norma ISO vital.</p>
-  <p>Para avanzar, deberás demostrar tu comprensión respondiendo correctamente a los desafíos.</p>
-  <div class="progress-bar">
-    <div class="progress" id="main-progress"></div>
-  </div>
-  <p class="question">¿Estás listo para convertirte en un experto en ISOs y desbloquear todos los niveles?</p>
-  <button class="btn start-btn" onclick="startGame()">¡Sí, estoy listo!</button>
-</div>
+</header>
 
-<div class="slide">
-  <div class="level-indicator">NIVEL 1</div>
-  <h1>ISO 9001: ¡El Poder de la CALIDAD!</h1>
-  <div class="icon">🎂🏭👍</div>
-  <p>Es como tener la <strong>mejor receta</strong> para tu pastel favorito. ¡Siempre perfecto!</p>
-  <p>Garantiza productos y servicios de <strong>alta calidad</strong> consistentes. ¡Clientes satisfechos!</p>
-  
-  <div class="quiz-container">
-    <h2>DESAFÍO NIVEL 1</h2>
-    <p>¿Cuál es el principal beneficio de implementar ISO 9001?</p>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 1)">Proteger los datos personales de los clientes</div>
-    <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 1)">Asegurar la consistencia y calidad de productos y servicios</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 1)">Reducir el impacto ambiental de la empresa</div>
-  </div>
-  
-  <div class="feedback" id="feedback-1"></div>
-</div>
+<main id="stage">
+  <section class="screen" id="screen-0" aria-labelledby="intro-title">
+    <div class="hero">
+      <div>
+        <span class="kicker"><svg class="icon"><use href="#i-sparkles"/></svg> Aventura interactiva · 5 niveles</span>
+        <h1 id="intro-title" tabindex="-1">Desbloquea los <em>superpoderes</em> de las normas ISO</h1>
+        <p class="lead">Las normas ISO son reglas acordadas en todo el mundo que ayudan a las empresas a hacer las cosas mejor. Aprende cuatro de las más importantes resolviendo un desafío en cada nivel.</p>
+        <div class="cta-row">
+          <button class="btn power" type="button" id="startBtn" style="--power:var(--quality)">Comenzar la aventura <svg class="icon"><use href="#i-arrow"/></svg></button>
+          <span class="meta">≈ 5 minutos · sin registro</span>
+        </div>
+      </div>
+      <div class="powers" id="powerList" aria-label="Superpoderes que vas a desbloquear"></div>
+    </div>
+    <div class="steps">
+      <div class="step"><b>01</b><h3>Descubre el poder</h3><p>Cada nivel explica una norma con ejemplos del día a día.</p></div>
+      <div class="step"><b>02</b><h3>Supera el desafío</h3><p>Acierta al primer intento y ganas 100 XP; al segundo, 50 XP.</p></div>
+      <div class="step"><b>03</b><h3>Colecciona medallas</h3><p>Completa los 5 niveles y consigue tu rango de experto ISO.</p></div>
+    </div>
+  </section>
+  <div id="levels"></div>
+  <section class="screen" id="screen-6" aria-labelledby="results-title">
+    <div class="results">
+      <div class="trophy"><svg class="icon"><use href="#i-trophy"/></svg></div>
+      <h1 id="results-title" tabindex="-1">¡Aventura completada!</h1>
+      <div class="score-big" id="finalScore">0<span> / 500 XP</span></div>
+      <div class="rank" id="rank"></div>
+      <p class="lead" id="rankText"></p>
+      <div class="medals" id="medals"></div>
+      <div class="cta-row">
+        <button class="btn" type="button" id="againBtn"><svg class="icon"><use href="#i-refresh"/></svg> Jugar de nuevo</button>
+        <button class="btn ghost" type="button" data-go="1">Repasar los niveles</button>
+      </div>
+    </div>
+  </section>
+</main>
 
-<div class="slide">
-  <div class="level-indicator">NIVEL 2</div>
-  <h1>ISO 27001 y 27701: ¡Escudo de SEGURIDAD!</h1>
-  <div class="icon">🛡️🔐📱</div>
-  <p><strong>ISO 27001:</strong> Una fortaleza digital para proteger la información empresarial.</p>
-  <p><strong>ISO 27701:</strong> Cuida la privacidad de datos personales con máxima responsabilidad.</p>
-  
-  <div class="quiz-container">
-    <h2>DESAFÍO NIVEL 2</h2>
-    <p>¿Qué diferencia a ISO 27701 de ISO 27001?</p>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 2)">ISO 27701 protege contra desastres naturales</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 2)">ISO 27701 se enfoca en la calidad del producto</div>
-    <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 2)">ISO 27701 se especializa en la privacidad de datos personales</div>
-  </div>
-  
-  <div class="feedback" id="feedback-2"></div>
-</div>
-
-<div class="slide">
-  <div class="level-indicator">NIVEL 3</div>
-  <h1>ISO 22301: ¡Poder de CONTINUIDAD!</h1>
-  <div class="icon">⚡📝💡</div>
-  <p>Cuando ocurre una emergencia, esta ISO es el <strong>Plan B</strong> infalible.</p>
-  <p>Permite a las empresas ser <strong>resilientes</strong> y seguir operando ante cualquier desastre.</p>
-  
-  <div class="quiz-container">
-    <h2>DESAFÍO NIVEL 3</h2>
-    <p>En caso de un desastre natural, ¿qué beneficio principal ofrece ISO 22301?</p>
-    <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 3)">Garantizar que la empresa pueda seguir operando</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 3)">Asegurar que los productos mantengan su calidad</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 3)">Proteger los datos contra ciberataques</div>
-  </div>
-  
-  <div class="feedback" id="feedback-3"></div>
-</div>
-
-<div class="slide">
-  <div class="level-indicator">NIVEL 4</div>
-  <h1>ISO 14001: ¡Poder VERDE! 🌍♻️</h1>
-  <div class="icon">🌳🌞♻️</div>
-  <p>Transforma tu organización en <strong>Guardián de la Naturaleza</strong>.</p>
-  <p>Reduce contaminación, optimiza recursos y promueve la sostenibilidad ambiental.</p>
-  
-  <div class="quiz-container">
-    <h2>DESAFÍO NIVEL 4</h2>
-    <p>¿Cuál es el enfoque principal de ISO 14001?</p>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 4)">Mejorar la calidad de los productos</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 4)">Proteger la información confidencial</div>
-    <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 4)">Gestionar el impacto ambiental de la organización</div>
-  </div>
-  
-  <div class="feedback" id="feedback-4"></div>
-</div>
-
-<div class="slide">
-  <div class="level-indicator">NIVEL FINAL</div>
-  <div class="score-container">
-    <div class="score">Puntuación: <span id="final-score-value">0</span></div>
-    <div class="max-score">Máximo: 500</div>
-  </div>
-  <h1>¡DOMINIO TOTAL DE LAS ISOs!</h1>
-  <div class="icon">🌟💪🤝</div>
-  <p><strong>¡Felicidades! Has dominado los superpoderes ISO.</strong></p>
-  <p>Ahora sabes cómo las empresas pueden ser mejores, más seguras y más sostenibles.</p>
-  <div id="score-message" class="question"></div>
-  
-  <div class="quiz-container">
-    <h2>DESAFÍO FINAL</h2>
-    <p>Relaciona cada situación con la ISO correcta:</p>
-    <p>"Quiero que mi helado siempre tenga el mismo sabor delicioso"</p>
-    <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 5)">ISO 9001 - Gestión de Calidad</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 5)">ISO 14001 - Gestión Ambiental</div>
-    <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 5)">ISO 22301 - Continuidad del Negocio</div>
-  </div>
-  
-  <div class="feedback" id="feedback-5"></div>
-</div>
-
-<div class="navigation">
-  <button class="btn" id="prevBtn" onclick="prevSlide()">⬅️ Anterior</button>
-  <button class="btn" id="nextBtn" onclick="nextSlide()" disabled>Siguiente Nivel ➡️</button>
-  <button class="btn reset-btn" id="resetBtn" onclick="resetGame()">🔄 Reiniciar</button>
-</div>
+<footer>Proyecto educativo de <a href="https://neuralcodelab.com" target="_blank" rel="noopener">Neural Code Lab</a>. Contenido simplificado con fines de aprendizaje; consulta <a href="https://www.iso.org" target="_blank" rel="noopener">iso.org</a> para los textos oficiales.</footer>
 
 <script>
-  let currentSlide = 0;
-  const slides = document.querySelectorAll('.slide');
-  const levelCompleted = [true, false, false, false, false, false]; // Start screen is always completed
-  const progressBar = document.getElementById('main-progress');
-  let score = 0;
-  const pointsPerLevel = 100;
-  const maxScore = 500; // 5 levels * 100 points
-  
-  // Initialize the game
-  function initGame() {
-    updateButtons();
-    updateMainProgress();
-    document.getElementById('nextBtn').style.display = 'none';
+const LEVELS = [
+  {
+    id:1, color:'var(--quality)', icon:'i-award', code:'9001', name:'El poder de la Calidad',
+    short:'Calidad', tagline:'Productos siempre consistentes',
+    desc:'Es como tener la mejor receta de tu pastel favorito: sale igual de bien cada vez. ISO 9001 organiza el trabajo para que los clientes reciban siempre la calidad que esperan.',
+    facts:[['Enfoque','Satisfacer al cliente de forma constante.'],['Método','Planificar, hacer, verificar y actuar para mejorar siempre.'],['Ejemplo','Una panadería que documenta sus recetas y controla cada horneada.']],
+    question:'¿Cuál es el principal beneficio de implementar ISO 9001?',
+    options:[['Proteger los datos personales de los clientes',false],['Asegurar la consistencia y calidad de productos y servicios',true],['Reducir el impacto ambiental de la empresa',false]],
+    why:'ISO 9001 es la norma de gestión de la calidad: busca que los productos y servicios cumplan de forma constante lo que el cliente necesita.'
+  },
+  {
+    id:2, color:'var(--security)', icon:'i-shield', code:'27001', extra:'+ 27701', name:'Escudo de Seguridad',
+    short:'Seguridad', tagline:'Información protegida',
+    desc:'ISO/IEC 27001 funciona como una fortaleza para la información de la empresa. ISO/IEC 27701 añade un escudo especial para los datos personales y la privacidad.',
+    facts:[['27001','Protege la confidencialidad, integridad y disponibilidad de la información.'],['27701','Gestiona la privacidad de los datos personales.'],['Ejemplo','Una tienda en línea que cifra pagos y respeta los datos de sus clientes.']],
+    question:'¿Qué diferencia a ISO 27701 de ISO 27001?',
+    options:[['ISO 27701 protege contra desastres naturales',false],['ISO 27701 se enfoca en la calidad del producto',false],['ISO 27701 se especializa en la privacidad de datos personales',true]],
+    why:'ISO 27001 cubre la seguridad de toda la información; ISO 27701 se centra en cómo se tratan y protegen los datos personales.'
+  },
+  {
+    id:3, color:'var(--continuity)', icon:'i-zap', code:'22301', name:'Poder de Continuidad',
+    short:'Continuidad', tagline:'Resistir cualquier crisis',
+    desc:'Cuando llega una emergencia, esta norma es el plan B que nunca falla. ISO 22301 prepara a la empresa para seguir operando ante apagones, desastres o ciberataques.',
+    facts:[['Enfoque','Identificar qué actividades no pueden detenerse.'],['Método','Planes de respuesta y recuperación que se practican con simulacros.'],['Ejemplo','Un hospital con generadores y un plan para atender aunque falle la red.']],
+    question:'En caso de un desastre natural, ¿qué beneficio principal ofrece ISO 22301?',
+    options:[['Garantizar que la empresa pueda seguir operando',true],['Asegurar que los productos mantengan su calidad',false],['Proteger los datos contra ciberataques',false]],
+    why:'ISO 22301 es la norma de continuidad del negocio: prepara a la organización para seguir funcionando y recuperarse rápido tras una interrupción.'
+  },
+  {
+    id:4, color:'var(--green)', icon:'i-leaf', code:'14001', name:'Poder Verde',
+    short:'Ambiente', tagline:'Guardianes de la naturaleza',
+    desc:'Convierte a la organización en guardiana del planeta. ISO 14001 ayuda a reducir la contaminación, usar mejor los recursos y cumplir las leyes ambientales.',
+    facts:[['Enfoque','Controlar el impacto ambiental de la empresa.'],['Método','Medir residuos, agua y energía, y fijar metas para reducirlos.'],['Ejemplo','Una fábrica que recicla sus residuos y ahorra agua en cada proceso.']],
+    question:'¿Cuál es el enfoque principal de ISO 14001?',
+    options:[['Mejorar la calidad de los productos',false],['Proteger la información confidencial',false],['Gestionar el impacto ambiental de la organización',true]],
+    why:'ISO 14001 es la norma de gestión ambiental: ayuda a identificar y reducir el impacto de la organización en el medio ambiente.'
+  },
+  {
+    id:5, color:'var(--final)', icon:'i-target', code:'MIX', name:'Desafío final',
+    short:'Maestría', tagline:'Combina todos los poderes',
+    desc:'Un experto ISO sabe qué poder usar en cada situación. Relaciona cada caso con la norma correcta para completar la aventura.',
+    facts:[['Reglas','4 situaciones, una por cada norma.'],['Puntos','100 XP, menos 20 por cada error.'],['Consejo','Piensa en qué se quiere proteger o mejorar.']],
+    scenarios:[
+      ['Quiero que mi helado siempre tenga el mismo sabor delicioso.',0],
+      ['Mi tienda en línea debe cuidar los datos personales de sus clientes.',1],
+      ['El banco debe seguir atendiendo aunque haya un apagón en toda la ciudad.',2],
+      ['La fábrica quiere reducir sus residuos y el consumo de agua.',3]
+    ],
+    choices:['ISO 9001 · Calidad','ISO 27001/27701 · Seguridad y privacidad','ISO 22301 · Continuidad','ISO 14001 · Ambiente']
   }
-  
-  function startGame() {
-    levelCompleted[1] = true; // Enable level 1
-    document.getElementById('nextBtn').style.display = 'inline-block';
-    nextSlide(); // Move to level 1
-    updateButtons();
-    updateMainProgress();
-  }
-  
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
-    
-    // Reset button styling
-    const nextBtn = document.getElementById('nextBtn');
-    nextBtn.classList.remove('btn-highlight');
-    nextBtn.classList.remove('btn-active');
-    
-    // Update final score if on last slide
-    if (index === slides.length - 1) {
-      document.getElementById('final-score-value').textContent = score;
-      
-      // Display appropriate message based on score
-      const scoreMessage = document.getElementById('score-message');
-      const percentage = (score / maxScore) * 100;
-      
-      if (percentage === 100) {
-        scoreMessage.innerHTML = '¡PUNTUACIÓN PERFECTA! 🏆 Eres un verdadero Maestro ISO. ¡Tu conocimiento transformará cualquier organización!';
-      } else if (percentage >= 80) {
-        scoreMessage.innerHTML = '¡EXCELENTE! 👏 Has demostrado un gran dominio de las normas ISO. ¡Felicidades!';
-      } else if (percentage >= 60) {
-        scoreMessage.innerHTML = '¡BUEN TRABAJO! 🚀 Tienes un sólido conocimiento de las ISOs. Sigue aprendiendo.';
-      } else {
-        scoreMessage.innerHTML = 'Has completado el recorrido ISO. 📚 Repasa los conceptos para mejorar tu puntuación.';
-      }
-    }
-    
-    updateButtons();
-  }
-  
-  function nextSlide() {
-    if (currentSlide < slides.length - 1 && levelCompleted[currentSlide + 1]) {
-      currentSlide++;
-      showSlide(currentSlide);
-    }
-  }
-  
-  function prevSlide() {
-    if (currentSlide > 0) {
-      currentSlide--;
-      showSlide(currentSlide);
-    }
-  }
-  
-  function updateButtons() {
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    prevBtn.disabled = currentSlide === 0;
-    
-    if (currentSlide === slides.length - 1) {
-      nextBtn.disabled = true;
-      nextBtn.textContent = '¡Completado! 🏆';
-    } else {
-      nextBtn.disabled = !levelCompleted[currentSlide + 1];
-      nextBtn.textContent = 'Siguiente Nivel ➡️';
-    }
-  }
-  
-  function checkAnswer(option, level) {
-    const isCorrect = option.getAttribute('data-correct') === 'true';
-    const feedbackEl = document.getElementById(`feedback-${level}`);
-    const options = option.parentElement.querySelectorAll('.quiz-option');
-    
-    // Disable all options after selection
-    options.forEach(opt => {
-      opt.style.pointerEvents = 'none';
-      if (opt.getAttribute('data-correct') === 'true') {
-        opt.classList.add('correct');
-      }
-    });
-    
-    if (isCorrect) {
-      option.classList.add('correct');
-      feedbackEl.classList.add('success');
-      feedbackEl.classList.remove('error');
-      feedbackEl.style.display = 'block';
-      feedbackEl.innerHTML = '¡Correcto! <strong>¡Nivel superado!</strong> Ahora puedes avanzar al siguiente nivel.';
-      
-      // Unlock next level
-      levelCompleted[level] = true;
-      
-      // Also unlock the next level in sequence
-      if (level < levelCompleted.length - 1) {
-        levelCompleted[level + 1] = true;
-      }
-      
-      // Update UI
-      updateButtons();
-      updateMainProgress();
-      
-      // Enable the next button explicitly and highlight it
-      const nextBtn = document.getElementById('nextBtn');
-      nextBtn.disabled = false;
-      nextBtn.classList.add('btn-highlight');
-      
-      // Add a small timeout to make the button pulse to draw attention
-      setTimeout(() => {
-        nextBtn.classList.add('btn-active');
-      }, 300);
-      
-      // Add points for completing the level
-      addPoints(pointsPerLevel);
-    } else {
-      option.classList.add('incorrect');
-      feedbackEl.classList.add('error');
-      feedbackEl.classList.remove('success');
-      feedbackEl.style.display = 'block';
-      feedbackEl.innerHTML = 'Incorrecto. Revisa la información e intenta de nuevo.';
-    }
-  }
-  
-  function updateMainProgress() {
-    const completedLevels = levelCompleted.filter(level => level).length - 1; // Exclude start screen
-    const totalLevels = levelCompleted.length - 1; // Exclude start screen
-    const progressPercentage = (completedLevels / totalLevels) * 100;
-    
-    progressBar.style.width = `${progressPercentage}%`;
-  }
-  
-  function addPoints(points) {
-    score += points;
-    const scoreElement = document.getElementById('score-value');
-    scoreElement.textContent = score;
-    
-    // Animate the score
-    scoreElement.classList.remove('score-animation');
-    void scoreElement.offsetWidth; // Trigger reflow to restart animation
-    scoreElement.classList.add('score-animation');
-    
-    // Show a floating score indicator
-    const currentSlideElement = slides[currentSlide];
-    const floatingPoints = document.createElement('div');
-    floatingPoints.className = 'floating-points';
-    floatingPoints.textContent = `+${points}`;
-    floatingPoints.style.cssText = `
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #238636;
-      font-size: 2em;
-      font-weight: bold;
-      animation: floatUp 2s forwards;
-      pointer-events: none;
-      z-index: 100;
-    `;
-    
-    currentSlideElement.appendChild(floatingPoints);
-    
-    // Remove the element after animation
-    setTimeout(() => {
-      floatingPoints.remove();
-    }, 2000);
-  }
-  
-  // Add CSS for floating points animation
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes floatUp {
-      0% { opacity: 0; transform: translate(-50%, -50%); }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; transform: translate(-50%, -200%); }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // Reset game function
-  function resetGame() {
-    if (confirm('¿Seguro que deseas reiniciar el juego? Perderás todo tu progreso.')) {
-      // Reset variables
-      currentSlide = 0;
-      score = 0;
-      levelCompleted = [true, false, false, false, false, false];
-      
-      // Reset UI
-      document.getElementById('score-value').textContent = '0';
-      
-      // Reset all quiz options
-      document.querySelectorAll('.quiz-option').forEach(opt => {
-        opt.classList.remove('correct', 'incorrect');
-        opt.style.pointerEvents = 'auto';
-      });
-      
-      // Hide all feedback messages
-      document.querySelectorAll('.feedback').forEach(el => {
-        el.style.display = 'none';
-        el.innerHTML = '';
-      });
-      
-      // Reset progress bar
-      progressBar.style.width = '0%';
-      
-      // Show first slide
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === 0);
-      });
-      
-      // Reset buttons
-      const nextBtn = document.getElementById('nextBtn');
-      nextBtn.disabled = true;
-      nextBtn.classList.remove('btn-highlight', 'btn-active');
-      nextBtn.style.display = 'inline-block';
-      document.getElementById('prevBtn').disabled = true;
-      
-      // Force update UI
-      updateButtons();
-      updateMainProgress();
-    }
-  }
-  
-  // Initialize the game when page loads
-  window.onload = initGame;
-</script>
+];
+const MAX = 500, KEY = 'isoAdventure.v2';
+const $ = (s, r=document) => r.querySelector(s);
+const ico = (id, cls='icon') => `<svg class="${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
 
+let state = fresh();
+function fresh(){ return {screen:0, levels:LEVELS.map(()=>({solved:false, misses:0, points:0, step:0}))}; }
+function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.levels && s.levels.length === LEVELS.length) state = s; }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+const score = () => state.levels.reduce((a,l)=>a+l.points,0);
+const unlocked = i => i === 0 || i === 1 || (i <= 5 && state.levels[i-2].solved) || (i === 6 && state.levels[4].solved);
+
+function renderIntro(){
+  $('#powerList').innerHTML = LEVELS.map(l => `
+    <div class="power-chip" style="--c:${l.color}">
+      <span class="badge">${ico(l.icon)}</span>
+      <div><strong>${l.code === 'MIX' ? l.name : 'ISO ' + l.code + (l.extra ? ' ' + l.extra : '')}</strong><span>${l.tagline}</span></div>
+      <span class="lvl">NV ${l.id}</span>
+    </div>`).join('');
+}
+
+function renderLevels(){
+  $('#levels').innerHTML = LEVELS.map((l, i) => {
+    const code = l.code === 'MIX' ? 'ISO<br>MIX' : `<small>ISO</small>${l.code}`;
+    return `
+    <section class="screen" id="screen-${l.id}" style="--power:${l.color}" aria-labelledby="lvl-title-${l.id}">
+      <div class="level">
+        <article class="power-card">
+          <div class="power-top"><span class="tag">Nivel ${l.id} · ${l.short}</span><span class="power-icon">${ico(l.icon)}</span></div>
+          <div class="iso-code">${code}</div>
+          <h1 class="power-name" id="lvl-title-${l.id}" tabindex="-1">${l.name}${l.extra ? ' <span style="font-size:.6em">(' + l.extra.replace('+ ','') + ')</span>' : ''}</h1>
+          <p class="power-desc">${l.desc}</p>
+          <ul class="facts">${l.facts.map(([k,v]) => `<li>${ico('i-bulb')}<span><b>${k}:</b> ${v}</span></li>`).join('')}</ul>
+        </article>
+        <div class="challenge" id="challenge-${l.id}"></div>
+      </div>
+    </section>`;
+  }).join('');
+  LEVELS.forEach(renderChallenge);
+}
+
+function renderChallenge(l){
+  const st = state.levels[l.id-1];
+  const box = $('#challenge-' + l.id);
+  const isFinal = !!l.scenarios;
+  let body;
+  if(isFinal){
+    const step = Math.min(st.step, l.scenarios.length - 1);
+    const [text, answer] = l.scenarios[step];
+    const done = st.solved || st.step >= l.scenarios.length;
+    body = `
+      <div class="challenge-head"><span>Desafío final · caso ${done ? l.scenarios.length : step+1} de ${l.scenarios.length}</span>
+        <span class="progress-dots">${l.scenarios.map((_,k)=>`<i class="${k < st.step || done ? 'on':''}"></i>`).join('')}</span></div>
+      <h2>¿Qué superpoder necesita esta situación?</h2>
+      <p class="scenario"><b>“${done ? l.scenarios[l.scenarios.length-1][0] : text}”</b></p>
+      <div class="options">${l.choices.map((c,k)=>`<button class="option${done && k === l.scenarios[l.scenarios.length-1][1] ? ' right':''}" type="button" data-level="${l.id}" data-idx="${k}" ${done?'disabled':''}><span class="key">${'ABCD'[k]}</span><span>${c}</span></button>`).join('')}</div>`;
+  } else {
+    body = `
+      <div class="challenge-head"><span>Desafío ${l.id} de 5</span><span class="attempt">${st.solved ? '+' + st.points + ' XP' : (st.misses ? 'Segundo intento · 50 XP' : 'Vale 100 XP')}</span></div>
+      <h2>${l.question}</h2>
+      <div class="options">${l.options.map(([t,ok],k)=>`<button class="option${st.solved && ok ? ' right':''}" type="button" data-level="${l.id}" data-idx="${k}" ${st.solved?'disabled':''}><span class="key">${'ABC'[k]}</span><span>${t}</span>${st.solved && ok ? '<span class="state">'+ico('i-check')+'</span>' : ''}</button>`).join('')}</div>`;
+  }
+  const fb = st.solved
+    ? `<div class="feedback good show" role="status">${ico('i-check')}<div><strong>¡Poder desbloqueado! +${st.points} XP</strong>${isFinal ? 'Dominaste todas las normas. ¡Mira tus resultados!' : l.why}</div></div>`
+    : `<div class="feedback" role="status" id="fb-${l.id}"></div>`;
+  const next = l.id === 5 ? 'Ver resultados' : 'Siguiente nivel';
+  box.innerHTML = body + fb + `
+    <div class="level-nav">
+      <button class="btn ghost" type="button" data-go="${l.id-1}">${ico('i-back')} Anterior</button>
+      <button class="btn power" type="button" data-go="${l.id+1}" ${st.solved?'':'disabled'}>${next} ${ico('i-arrow')}</button>
+    </div>`;
+}
+
+function answer(btn){
+  const id = +btn.dataset.level, idx = +btn.dataset.idx, l = LEVELS[id-1], st = state.levels[id-1];
+  if(st.solved) return;
+  const fb = $('#fb-' + id);
+  let ok;
+  if(l.scenarios){
+    ok = idx === l.scenarios[st.step][1];
+    if(ok){
+      st.step++;
+      if(st.step >= l.scenarios.length){ st.solved = true; st.points = Math.max(20, 100 - st.misses*20); award(btn, st.points); }
+      save(); renderChallenge(l); refreshChrome();
+      if(!st.solved){ const f = $('#fb-' + id); f.className='feedback good show'; f.innerHTML = ico('i-check') + '<div><strong>¡Correcto!</strong>Siguiente caso.</div>'; }
+      $('#challenge-' + id + ' .option')?.focus();
+      return;
+    }
+  } else {
+    ok = l.options[idx][1];
+    if(ok){ st.solved = true; st.points = st.misses === 0 ? 100 : 50; save(); award(btn, st.points); renderChallenge(l); refreshChrome(); $('#challenge-' + id + ' [data-go="' + (id+1) + '"]').focus(); return; }
+  }
+  st.misses++; save();
+  btn.classList.add('wrong','shake'); btn.disabled = true;
+  btn.insertAdjacentHTML('beforeend', '<span class="state">' + ico('i-x') + '</span>');
+  fb.className = 'feedback miss show';
+  fb.innerHTML = ico('i-x') + `<div><strong>Casi.</strong>${l.scenarios ? 'Piensa en qué se quiere proteger o mejorar e intenta de nuevo.' : 'Vuelve a leer la tarjeta de poder e intenta otra vez.'}</div>`;
+  if(!l.scenarios){ const a = $('#challenge-' + id + ' .attempt'); if(a) a.textContent = st.misses === 1 ? 'Segundo intento · 50 XP' : 'Sigue intentando · 50 XP'; }
+}
+
+function award(btn, pts){
+  const r = btn.getBoundingClientRect();
+  const el = document.createElement('div');
+  el.className = 'plus'; el.textContent = '+' + pts;
+  el.style.left = (r.left + r.width/2) + 'px'; el.style.top = (r.top - 10) + 'px';
+  el.style.setProperty('--power', LEVELS[+btn.dataset.level-1].color);
+  document.body.appendChild(el); setTimeout(()=>el.remove(), 1300);
+  const xp = $('#xp'); xp.classList.remove('bump'); void xp.offsetWidth; xp.classList.add('bump');
+}
+
+function refreshChrome(){
+  const s = score();
+  $('#xpValue').textContent = s;
+  $('#xpBar').style.width = (s/MAX*100) + '%';
+  $('#map').innerHTML = LEVELS.map((l,i) => {
+    const st = state.levels[i], cur = state.screen === l.id, open = unlocked(l.id);
+    return (i ? `<span class="map-line ${state.levels[i-1].solved ? 'done':''}"></span>` : '') +
+      `<button class="map-node ${st.solved?'done':''} ${cur?'current':''}" style="--c:${l.color}" type="button" data-go="${l.id}" ${open?'':'disabled'} aria-label="Nivel ${l.id}: ${l.short}${st.solved?' (completado)':''}" ${cur?'aria-current="step"':''}>${st.solved ? ico('i-check') : l.id}</button>`;
+  }).join('');
+}
+
+function renderResults(){
+  const s = score();
+  $('#finalScore').innerHTML = s + '<span> / 500 XP</span>';
+  const ranks = [[500,'MAESTRO ISO','Puntuación perfecta. Sabes qué superpoder usar en cada situación.'],[400,'EXPERTO ISO','Gran dominio de las normas. Un par de repasos y serás maestro.'],[300,'AGENTE ISO','Buen conocimiento. Repasa los niveles donde fallaste.'],[0,'APRENDIZ ISO','Completaste la aventura. Juega otra vez para subir de rango.']];
+  const [,title,text] = ranks.find(r => s >= r[0]);
+  $('#rank').textContent = title; $('#rankText').textContent = text;
+  $('#medals').innerHTML = LEVELS.map((l,i) => {
+    const p = state.levels[i].points;
+    return `<div class="medal ${p < 100 ? 'partial':''}" style="--c:${l.color}"><div class="badge">${ico(l.icon)}</div><b>${l.code === 'MIX' ? 'Final' : 'ISO ' + l.code}</b><span>${p} XP</span></div>`;
+  }).join('');
+}
+
+function go(i){
+  i = Math.max(0, Math.min(6, i));
+  if(!unlocked(i)) return;
+  state.screen = i; save();
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === 'screen-' + i));
+  if(i === 6) renderResults();
+  refreshChrome();
+  window.scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  $('#screen-' + i + ' [tabindex="-1"]')?.focus({preventScroll:true});
+}
+
+let resetTimer;
+function reset(){
+  const b = $('#reset');
+  if(!b.classList.contains('confirming')){
+    b.classList.add('confirming'); b.innerHTML = ico('i-refresh') + '¿Reiniciar?';
+    resetTimer = setTimeout(()=>{ b.classList.remove('confirming'); b.innerHTML = ico('i-refresh'); }, 3000);
+    return;
+  }
+  clearTimeout(resetTimer); b.classList.remove('confirming'); b.innerHTML = ico('i-refresh');
+  restart();
+}
+function restart(){ state = fresh(); save(); LEVELS.forEach(renderChallenge); go(0); }
+
+document.addEventListener('click', e => {
+  const opt = e.target.closest('.option'); if(opt && !opt.disabled) return answer(opt);
+  const g = e.target.closest('[data-go]'); if(g && !g.disabled) return go(+g.dataset.go);
+});
+$('#startBtn').addEventListener('click', () => go(1));
+$('#againBtn').addEventListener('click', restart);
+$('#reset').addEventListener('click', reset);
+document.addEventListener('keydown', e => {
+  if(e.target.matches('input,textarea') || e.altKey || e.ctrlKey || e.metaKey) return;
+  const n = state.screen;
+  if(n >= 1 && n <= 5){
+    const k = e.key.toUpperCase(), idx = 'ABCD'.indexOf(k);
+    const btns = document.querySelectorAll('#challenge-' + n + ' .option');
+    if(idx > -1 && btns[idx] && !btns[idx].disabled){ answer(btns[idx]); }
+  }
+});
+
+load(); renderIntro(); renderLevels(); go(unlocked(state.screen) ? state.screen : 0);
+</script>
 </body>
 </html>
